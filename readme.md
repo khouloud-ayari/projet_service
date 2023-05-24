@@ -28,119 +28,42 @@ Open the apiGateway.js file in a text editor.
 Modify the following lines to specify the paths to your gRPC proto files:
 
 
-const productProtoPath = 'product.proto';
-const orderProtoPath = 'order.proto';
-Update the gRPC service URLs to match your service configurations:
-
-
-
-const clientProducts = new productProto.ProductService('localhost:50051', grpc.credentials.createInsecure());
-const clientOrders = new orderProto.OrderService('localhost:50052', grpc.credentials.createInsecure());
-Optionally, you can change the port number for the API Gateway by modifying the following line:
-
-
-const port = 3000;
-Starting the API Gateway
-To start the API Gateway, follow these steps:
-
-Open a terminal and navigate to the project directory.
-
-Run the following command:
-
-
-node apiGateway.js
-Once the API Gateway is running, you should see a message in the console indicating the port number:
-
-
-API Gateway running on port 3000
-Endpoints
-Products
-GET /products: Retrieve a list of all products.
-GET /products/:id: Retrieve a product by ID.
-POST /products: Create a new product.
-PUT /products/:id: Update an existing product.
-DELETE /products/:id: Delete a product.
-Orders
-GET /orders: Retrieve a list of all orders.
-GET /orders/:id: Retrieve an order by ID.
-POST /orders: Create a new order.
-PUT /orders/:id: Update an existing order.
-DELETE /orders/:id: Delete an order.
-GraphQL Schema
-The API Gateway exposes the following GraphQL schema:
-
-graphql
-Copy code
-type Product {
-  id: String!
-  title: String!
-  description: String!
-}
-
-type Order {
-  id: String!
-  title: String!
-  description: String!
-}
-
-type Query {
-  product(id: String!): Product
-  products: [Product]
-  order(id: String!): Order
-  orders: [Order]
-}
-
-type Mutation {
-  addProduct(id: String!, title: String!, description: String!): Product
-  updateProduct(id: String!, title: String!, description: String!): Product
-  deleteProduct(id: String!): Boolean
-  addOrder(id: String!, title: String!, description: String!): Order
-  updateOrder(id: String!, title: String!, description: String!): Order
-  deleteOrder(id: String!): Boolean
-}
-Dependencies
-express
-@apollo/server
-body-parser
-cors
-@grpc/grpc-js
-@grpc/proto-loader
-Configuration
-The API Gateway requires the following gRPC service definitions:
-
-product.proto: Protobuf definition for the ProductService.
-order.proto: Protobuf definition for the OrderService.
-Make sure to update the file paths in the apiGateway.js file to match the location of your gRPC service definitions.
-API Endpoints
-The API Gateway exposes the following endpoints for interacting with the gRPC services:
-
-GET /products
-Description: Retrieves a list of products.
-Response: Returns a JSON array of products.
-POST /product
-Description: Creates a new product.
-Request Body: Requires the following properties:
-id: The ID of the product.
-title: The title of the product.
-description: The description of the product.
-Response: Returns the created product as a JSON object.
-GET /products/:id
-Description: Retrieves a specific product by ID.
-Request Parameter: Requires the id parameter to specify the ID of the product.
-Response: Returns the product as a JSON object.
-GET /orders
-Description: Retrieves a list of orders.
-Response: Returns a JSON array of orders.
-POST /order
-Description: Creates a new order.
-Request Body: Requires the following properties:
-id: The ID of the order.
-title: The title of the order.
-description: The description of the order.
-Response: Returns the created order as a JSON object.
-GET /orders/:id
-Description: Retrieves a specific order by ID.
-Request Parameter: Requires the id parameter to specify the ID of the order.
-Response: Returns the order as a JSON object.
-Conclusion
-The API Gateway provides a unified interface for accessing the gRPC services related to products and orders. By starting the API Gateway and making requests to the defined endpoints, you can interact with the services and retrieve or create data as needed.
+/*
+ * README.md
+ * 
+ * API Gateway
+ * 
+ * This API Gateway is responsible for routing requests to the appropriate gRPC services for the articles and books entities.
+ * It uses Apollo Server for GraphQL functionality and communicates with the gRPC services using proto-loader and @grpc/grpc-js.
+ * 
+ * Prerequisites:
+ * 1. Make sure the gRPC services for articles and books are running on the specified ports (50051 and 50052 respectively).
+ * 2. Install the required dependencies by running `npm install`.
+ * 
+ * How to run:
+ * 1. Run `node app.js` to start the API Gateway.
+ * 2. The API Gateway will be running on port 3000.
+ * 
+ * Routes:
+ * 1. GET /articles - Fetches all articles.
+ * 2. POST /articles - Creates a new article.
+ * 3. GET /articles/:id - Fetches the article with the specified ID.
+ * 4. PUT /articles/:id - Updates the article with the specified ID.
+ * 5. DELETE /articles/:id - Deletes the article with the specified ID.
+ * 6. GET /books - Fetches all books.
+ * 7. POST /books - Creates a new book.
+ * 8. GET /books/:id - Fetches the book with the specified ID.
+ * 9. PUT /books/:id - Updates the book with the specified ID.
+ * 10. DELETE /books/:id - Deletes the book with the specified ID.
+ * 
+ * Make sure to replace 'localhost' with the appropriate host address if the gRPC services are running on a different machine.
+ * 
+ * Example usage:
+ * 1. To fetch all articles, send a GET request to http://localhost:3000/articles.
+ * 2. To create a new article, send a POST request to http://localhost:3000/articles with the article data in the request body.
+ * 3. To fetch a specific article, send a GET request to http://localhost:3000/articles/:id, replacing :id with the article ID.
+ * 4. To update a specific article, send a PUT request to http://localhost:3000/articles/:id with the updated article data in the request body.
+ * 5. To delete a specific article, send a DELETE request to http://localhost:3000/articles/:id, replacing :id with the article ID.
+ * 6. The same operations can be performed for books using the /books routes.
+ * 
+ */
